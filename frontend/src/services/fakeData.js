@@ -1,0 +1,78 @@
+const data = [
+  {
+    date: "2022-01-01",
+    height: "172",
+    weight: 72,
+  },
+  {
+    date: "2022-01-02",
+    height: "172",
+    weight: 68,
+    chest: 92,
+    hip: 94,
+    thigh: 54,
+    arm: 34,
+  },
+  {
+    date: "2022-01-03",
+    height: "172",
+    weight: 63,
+    chest: 89,
+    hip: 92,
+    thigh: 52,
+    arm: 32,
+  },
+  {
+    date: "2022-01-04",
+    height: "172",
+    weight: 60,
+    chest: 86,
+    hip: 90,
+    thigh: 50,
+    arm: 30,
+  },
+  {
+    date: "2022-01-05",
+    height: "172",
+    weight: 70,
+    chest: 95,
+    hip: 95,
+    thigh: 55,
+    arm: 34,
+  },
+  {
+    date: "2022-01-06",
+    height: "172",
+    weight: 75,
+    chest: 98,
+    arm: 35,
+  },
+  {
+    date: "2022-01-07",
+    height: "172",
+    weight: 80,
+  },
+  {
+    date: "2022-01-08",
+    height: "172",
+    weight: 85,
+    chest: 102,
+    hip: 102,
+    thigh: 60,
+    arm: 38,
+  },
+  {
+    date: "2022-01-09",
+    height: "172",
+    weight: 90,
+  },
+  {
+    date: "2022-01-10",
+    height: "172",
+    weight: 95,
+    thigh: 64,
+    arm: 40,
+  },
+];
+
+export default data;
