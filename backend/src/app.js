@@ -2,9 +2,13 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
+const cookies = require("cookie-parser");
 const authRouter = require("./routers/authRouter");
+const statRouter = require("./routers/statRouter");
 
 const app = express();
+
+app.use(cookies());
 
 // use some application-level middlewares
 app.use(
@@ -23,6 +27,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.static(path.join(__dirname, "..", "..", "frontend", "dist")));
 
 // API routes
+app.use("/api", statRouter);
 app.use("/auth", authRouter);
 
 // Redirect all requests to the REACT app
