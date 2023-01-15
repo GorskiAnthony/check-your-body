@@ -41,6 +41,25 @@ export default function Register() {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700"
                   >
+                    Taille
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="taille"
+                      name="taille"
+                      type="text"
+                      autoComplete="taille"
+                      placeholder="Taille en cm"
+                      required
+                      className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Email
                   </label>
                   <div className="mt-1">
@@ -77,15 +96,15 @@ export default function Register() {
                 </div>
                 <div className="space-y-1">
                   <label
-                    htmlFor="password"
+                    htmlFor="repeatPassword"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Confirmation mot de passe
                   </label>
                   <div className="mt-1">
                     <input
-                      id="password"
-                      name="password"
+                      id="repeatPassword"
+                      name="repeatPassword"
                       type="password"
                       autoComplete="current-password"
                       placeholder="********"

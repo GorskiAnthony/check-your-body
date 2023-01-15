@@ -14,9 +14,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^4.8.1",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
+    "joi": "^17.7.0",
+    "jsonwebtoken": "^9.0.0",
     "mysql2": "^2.3.3"
   },
   "rules": {
@@ -37,6 +41,7 @@
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-prettier": "^4.0.0",
     "nodemon": "^2.0.15",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "prisma": "^4.8.1"
   }
 }
