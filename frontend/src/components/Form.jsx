@@ -26,7 +26,8 @@ export default function Form() {
                 htmlFor="cover-photo"
                 className="text-lg font-medium leading-6 text-gray-900"
               >
-                Photo de la semaine
+                Photo de la semaine{" "}
+                <span className="text-red-500 text-md">*</span>
               </label>
               <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                 <div className="space-y-1 text-center">

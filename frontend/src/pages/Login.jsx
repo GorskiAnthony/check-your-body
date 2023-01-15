@@ -1,6 +1,34 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import instance from "@services/axios";
+import toastify from "@services/toastify";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLogin({ ...login, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    instance
+      .post("/auth/login", login)
+      .then(() => {
+        navigate("/home");
+        toastify("Connexion réussie", "success");
+      })
+      .catch((err) => {
+        toastify("une erreur est survenue", "error");
+        console.error(err);
+      });
+  };
+
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -18,7 +46,7 @@ export default function Login() {
 
           <div className="mt-8">
             <div className="mt-6">
-              <form action="!#" method="POST" className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
                     htmlFor="email"
@@ -28,6 +56,7 @@ export default function Login() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="email"
                       name="email"
                       type="email"
@@ -48,6 +77,7 @@ export default function Login() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="password"
                       name="password"
                       type="password"

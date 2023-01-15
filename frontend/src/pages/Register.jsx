@@ -1,6 +1,49 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import instance from "@services/axios";
+import toastify from "@services/toastify";
 
 export default function Register() {
+  const navigate = useNavigate();
+  const [register, setRegister] = useState({
+    name: "",
+    email: "",
+    password: "",
+    repeatPassword: "",
+    height: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (register.password.length < 6) {
+      return toastify(
+        "Le mot de passe doit contenir au moins 6 caractères",
+        "error"
+      );
+    }
+
+    if (register.password !== register.repeatPassword) {
+      return toastify("Les mots de passe ne correspondent pas", "error");
+    }
+
+    instance
+      .post("/auth/signup", register)
+      .then(() => {
+        navigate("/");
+        return toastify("Inscription réussie", "success");
+      })
+      .catch((err) => {
+        console.error(err);
+        return toastify("une erreur est survenue", "error");
+      });
+    return null;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setRegister({ ...register, [name]: value });
+  };
+
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -18,7 +61,7 @@ export default function Register() {
 
           <div className="mt-8">
             <div className="mt-6">
-              <form action="!#" method="POST" className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
                     htmlFor="name"
@@ -28,6 +71,7 @@ export default function Register() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="name"
                       name="name"
                       type="text"
@@ -47,10 +91,11 @@ export default function Register() {
                   </label>
                   <div className="mt-1">
                     <input
-                      id="taille"
-                      name="taille"
-                      type="text"
-                      autoComplete="taille"
+                      onChange={handleChange}
+                      id="height"
+                      name="height"
+                      type="number"
+                      autoComplete="height"
                       placeholder="Taille en cm"
                       required
                       className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -66,6 +111,7 @@ export default function Register() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="email"
                       name="email"
                       type="email"
@@ -86,6 +132,7 @@ export default function Register() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="password"
                       name="password"
                       type="password"
@@ -105,6 +152,7 @@ export default function Register() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="repeatPassword"
                       name="repeatPassword"
                       type="password"

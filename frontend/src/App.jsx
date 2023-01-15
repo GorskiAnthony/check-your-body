@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import Login from "@pages/Login";
 import Register from "@pages/Register";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/bilan" element={<Bilan />} />
         <Route path="*" element={<Pages404 />} />
       </Routes>
+      <ToastContainer />
     </div>
   );
 }
