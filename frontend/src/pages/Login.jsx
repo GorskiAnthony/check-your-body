@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function Login() {
   return (
     <div className="flex min-h-screen">
@@ -58,19 +60,13 @@ export default function Login() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <label
-                      htmlFor="remember-me"
-                      className="ml-2 block text-sm text-gray-900"
+                  <div className="text-sm">
+                    <Link
+                      to="/register"
+                      className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
-                      Se rappeler de moi
-                    </label>
+                      Je n'ai pas de compte
+                    </Link>
                   </div>
 
                   <div className="text-sm">
@@ -99,7 +95,7 @@ export default function Login() {
       <div className="relative hidden w-0 flex-1 lg:block">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+          src="https://images.pexels.com/photos/4793211/pexels-photo-4793211.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
           alt=""
         />
       </div>
