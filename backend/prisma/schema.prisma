@@ -27,12 +27,12 @@ model Stat {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  weight    Int
+  weight    Float
   photo     String?
-  arm       Int?
-  chest     Int?
-  waist     Int?
-  hips      Int?
+  arm       Float?
+  chest     Float?
+  waist     Float?
+  hips      Float?
   userStat   User   @relation(fields: [userStatId], references: [id])
   userStatId String
 }

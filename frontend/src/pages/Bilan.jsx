@@ -40,7 +40,11 @@ export default function Bilan() {
   const [view, setView] = useState("poids");
 
   const labels = datas.map((item) =>
-    new Date(item.createdAt).toLocaleDateString()
+    new Date(item.createdAt).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    })
   );
   const poids = {
     labels,
