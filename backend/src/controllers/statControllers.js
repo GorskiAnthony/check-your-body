@@ -1,7 +1,11 @@
 const prisma = require("../models/prisma");
 
-const getAll = async (req, res) => {
-  const allStats = await prisma.stat.findMany();
+const getStats = async (req, res) => {
+  const allStats = await prisma.stat.findMany({
+    where: {
+      userStatId: req.user.id,
+    },
+  });
   res.send(allStats);
 };
 
@@ -29,6 +33,6 @@ const addStat = async (req, res) => {
 };
 
 module.exports = {
-  getAll,
+  getStats,
   addStat,
 };

@@ -101,7 +101,7 @@ const login = async (req, res) => {
   }
 
   // j'ajoute un token à l'utilisateur
-  const token = jwtService.generateToken({ id: user.id });
+  const token = jwtService.generateToken({ id: user.id, name: user.name });
 
   // je renvoie l'utilisateur avec le token
   res.cookie("cyb_user", token, {
