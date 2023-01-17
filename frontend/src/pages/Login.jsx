@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import instance from "@services/axios";
 import toastify from "@services/toastify";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Login() {
+  const { handleLogin } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const [login, setLogin] = useState({
     email: "",
@@ -19,9 +22,10 @@ export default function Login() {
     e.preventDefault();
     instance
       .post("/auth/login", login)
-      .then(() => {
+      .then((res) => {
         navigate("/home");
-        toastify("Connexion réussie", "success");
+        handleLogin(res.data);
+        toastify("👋 Hello ! Ravie de te revoir", "success");
       })
       .catch((err) => {
         toastify("une erreur est survenue", "error");

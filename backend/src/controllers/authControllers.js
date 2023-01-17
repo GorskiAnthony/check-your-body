@@ -114,7 +114,7 @@ const login = async (req, res) => {
     maxAge: 1000 * 60 * 60 * 24,
   });
 
-  return res.send({ message: "Login successful" });
+  return res.send({ message: "Login successful", token });
 };
 
 module.exports = {

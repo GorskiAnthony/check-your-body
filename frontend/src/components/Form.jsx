@@ -4,7 +4,7 @@ import instance from "@services/axios";
 import toastify from "@services/toastify";
 import Input from "./Input";
 
-export default function Form() {
+export default function Form({ setSendForm }) {
   const [file, setFile] = useState(null);
   const [filename, setFilename] = useState("Choisissez une photo");
 
@@ -42,6 +42,15 @@ export default function Form() {
       .post("/api/stats", fd)
       .then((res) => {
         toastify(res.data.message, "success");
+        setSendForm(true);
+        setValues({
+          poids: null,
+          poitrine: null,
+          hanche: null,
+          cuisse: null,
+          bras: null,
+        });
+        setFilename("Choisissez une photo");
       })
       .catch((err) => {
         toastify(err.response.data.message, "error");

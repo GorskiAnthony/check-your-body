@@ -75,18 +75,20 @@ function displayData(data) {
 
 export default function Reweighing() {
   const [datas, setDatas] = useState([]);
+  const [sendForm, setSendForm] = useState(false);
 
   useEffect(() => {
     instance.get("/api/stats").then((res) => {
       setDatas(res.data);
     });
-  }, []);
+    setSendForm(false);
+  }, [sendForm]);
 
   return (
     <Layout>
       <div className="flex gap-8 flex-wrap">
         <div className="bg-gray-50 p-10 rounded-md sm:flex-none flex-grow">
-          <Form />
+          <Form setSendForm={setSendForm} />
         </div>
         <div className="sm:flex-1">
           {datas.length === 0 ? (
