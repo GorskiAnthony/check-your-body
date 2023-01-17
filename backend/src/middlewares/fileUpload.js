@@ -39,7 +39,7 @@ const fileMiddleware = (req, res, next) => {
     req.body = fields;
     req.files = files;
     next();
-    return;
+    return null;
   });
 };
 
