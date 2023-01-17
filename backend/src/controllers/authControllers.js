@@ -117,7 +117,13 @@ const login = async (req, res) => {
   return res.send({ message: "Login successful", token });
 };
 
+const logout = (req, res) => {
+  res.clearCookie("cyb_user");
+  return res.status(200).json({ message: "Logout successful" });
+};
+
 module.exports = {
   signup,
   login,
+  logout,
 };

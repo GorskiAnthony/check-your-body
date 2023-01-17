@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import instance from "@services/axios";
+import { AuthContext } from "../contexts/AuthContext";
 
 import Layout from "./layout/Layout";
 
@@ -29,6 +30,7 @@ function getImc(weight, height) {
 }
 
 export default function Bilan() {
+  const { user } = useContext(AuthContext);
   const [datas, setDatas] = useState([]);
 
   useEffect(() => {
@@ -58,7 +60,7 @@ export default function Bilan() {
       },
       {
         label: "IMC",
-        data: datas.map((item) => getImc(item.weight, 170)),
+        data: datas.map((item) => getImc(item.weight, user.height)),
         backgroundColor: "rgba(21, 128, 61, 0.2)",
         borderColor: "rgba(21, 128, 61, 1)",
         borderWidth: 1,

@@ -42,7 +42,6 @@ export default function Form({ setSendForm }) {
       .post("/api/stats", fd)
       .then((res) => {
         toastify(res.data.message, "success");
-        setSendForm(true);
         setValues({
           poids: null,
           poitrine: null,
@@ -50,11 +49,24 @@ export default function Form({ setSendForm }) {
           cuisse: null,
           bras: null,
         });
+        setSendForm(true);
         setFilename("Choisissez une photo");
       })
       .catch((err) => {
         toastify(err.response.data.message, "error");
       });
+  };
+
+  const handleReset = () => {
+    setFile(null);
+    setValues({
+      poids: null,
+      poitrine: null,
+      hanche: null,
+      cuisse: null,
+      bras: null,
+    });
+    setFilename("Choisissez une photo");
   };
 
   return (
@@ -137,8 +149,10 @@ export default function Form({ setSendForm }) {
 
       <div className="pt-5">
         <div className="flex justify-end">
+          {/* eslint-disable-next-line react/button-has-type */}
           <button
-            type="button"
+            type="reset"
+            onClick={handleReset}
             className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             En fait non..

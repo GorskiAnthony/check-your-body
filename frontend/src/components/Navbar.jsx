@@ -139,7 +139,7 @@ export default function Navbar() {
                           {({ active }) => (
                             <button
                               type="button"
-                              onClick={() => handleLogout()}
+                              onClick={handleLogout}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
@@ -209,7 +209,7 @@ export default function Navbar() {
                 </Disclosure.Button>
                 <Disclosure.Button
                   as="a"
-                  href="!#"
+                  onClick={handleLogout}
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"
                 >
                   Sign out
