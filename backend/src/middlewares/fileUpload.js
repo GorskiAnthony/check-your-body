@@ -16,23 +16,30 @@ const fileMiddleware = (req, res, next) => {
     fs.mkdirSync(userUpload);
   }
 
-  // create form
+  // accepted file types
+  const acceptedMimeTypes = ["image/jpeg", "image/png", "image/gif"]; // create form
   const form = new formidable.IncomingForm({
     uploadDir: userUpload,
     keepExtensions: true,
+    maxFileSize: 5 * 1024 * 1024,
   });
   // parse form
   form.parse(req, (err, fields, files) => {
     // check error
     if (err) {
       // return error
-      res.status(500).json({ message: [{ message: err.message }] });
-    } else {
-      // else add fields to req.body & files to req.files
-      req.body = fields;
-      req.files = files;
-      next();
+      return res.status(500).json({ message: "Maximum 5MB" });
     }
+    const { file } = files;
+    if (acceptedMimeTypes.indexOf(file.mimetype) === -1) {
+      fs.unlinkSync(file.filepath);
+      return res.status(500).json({ message: "File type not supported" });
+    }
+    // else add fields to req.body & files to req.files
+    req.body = fields;
+    req.files = files;
+    next();
+    return;
   });
 };
 
