@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `Stat` MODIFY `arm` INTEGER NULL,
+    MODIFY `chest` INTEGER NULL,
+    MODIFY `waist` INTEGER NULL,
+    MODIFY `hips` INTEGER NULL;
