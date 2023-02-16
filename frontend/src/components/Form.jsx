@@ -1,14 +1,24 @@
 import { useState } from "react";
 import inputForm from "@services/inputsForm";
+import instance from "@services/axios";
+import toastify from "@services/toastify";
 import Input from "./Input";
 
-export default function Form() {
+export default function Form({ setSendForm }) {
+  const [file, setFile] = useState(null);
+  const [filename, setFilename] = useState("Choisissez une photo");
+
+  const handleFile = (e) => {
+    setFile(e.target.files[0]);
+    setFilename(e.target.files[0].name);
+  };
+
   const [values, setValues] = useState({
-    poids: "",
-    poitrine: "",
-    hanche: "",
-    cuisse: "",
-    bras: "",
+    poids: null,
+    poitrine: null,
+    hanche: null,
+    cuisse: null,
+    bras: null,
   });
 
   const handleChange = (e) => {
@@ -16,8 +26,54 @@ export default function Form() {
     setValues({ ...values, [name]: value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!file) {
+      toastify("Veuillez ajouter une photo", "error");
+      return;
+    }
+
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("datas", JSON.stringify(values));
+
+    instance
+      .post("/api/stats", fd)
+      .then((res) => {
+        toastify(res.data.message, "success");
+        setValues({
+          poids: null,
+          poitrine: null,
+          hanche: null,
+          cuisse: null,
+          bras: null,
+        });
+        setSendForm(true);
+        setFilename("Choisissez une photo");
+      })
+      .catch((err) => {
+        toastify(err.response.data.message, "error");
+      });
+  };
+
+  const handleReset = () => {
+    setFile(null);
+    setValues({
+      poids: null,
+      poitrine: null,
+      hanche: null,
+      cuisse: null,
+      bras: null,
+    });
+    setFilename("Choisissez une photo");
+  };
+
   return (
-    <form className="space-y-8 divide-y divide-gray-200">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-8 divide-y divide-gray-200"
+    >
       <div className="space-y-8 divide-y divide-gray-200">
         <div>
           <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
@@ -26,7 +82,8 @@ export default function Form() {
                 htmlFor="cover-photo"
                 className="text-lg font-medium leading-6 text-gray-900"
               >
-                Photo de la semaine
+                Photo de la semaine{" "}
+                <span className="text-red-500 text-md">*</span>
               </label>
               <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                 <div className="space-y-1 text-center">
@@ -49,15 +106,16 @@ export default function Form() {
                       htmlFor="file-upload"
                       className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
                     >
-                      <span>Upload a file</span>
+                      <span className="p-2">Upload a file</span>
                       <input
+                        onChange={handleFile}
                         id="file-upload"
                         name="file-upload"
                         type="file"
                         className="sr-only"
                       />
                     </label>
-                    <p className="pl-1">or drag and drop</p>
+                    <p className="pl-1">{filename}</p>
                   </div>
                   <p className="text-xs text-gray-500">
                     PNG, JPG, GIF up to 10MB
@@ -91,8 +149,10 @@ export default function Form() {
 
       <div className="pt-5">
         <div className="flex justify-end">
+          {/* eslint-disable-next-line react/button-has-type */}
           <button
-            type="button"
+            type="reset"
+            onClick={handleReset}
             className="rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             En fait non..

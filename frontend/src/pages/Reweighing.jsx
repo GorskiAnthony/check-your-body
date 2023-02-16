@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Form from "@components/Form";
-import fakeData from "@services/fakeData";
+import instance from "@services/axios";
+
+/** Images */
 import arm from "@assets/muscles.png";
 import chest from "@assets/chest.png";
 import hips from "@assets/hips.png";
@@ -23,12 +25,12 @@ function isEmpty() {
 }
 
 function displayData(data) {
-  return data.reverse().map((item) => (
-    <div key={item.date}>
+  return data.map((item) => (
+    <div key={item.id}>
       <div className="date flex justify-between w-52">
         <span>
           <i className="fa-regular fa-calendar pr-2" />
-          {item.date}
+          {item.createdAt.split("T")[0]}
         </span>
         <span>
           <i className="fa-solid fa-weight-scale pr-2" />
@@ -43,10 +45,10 @@ function displayData(data) {
               <span className="text-center">{item.chest} cm</span>
             </div>
           )}
-          {item.hip && (
+          {item.hips && (
             <div className="text-gray-600 flex">
               <img className="pr-2" src={hips} alt="hips" />
-              <span className="text-center">{item.hip} cm</span>
+              <span className="text-center">{item.hips} cm</span>
             </div>
           )}
         </div>
@@ -58,10 +60,10 @@ function displayData(data) {
                 <span className="text-center">{item.arm} cm</span>
               </div>
             )}
-            {item.thigh && (
+            {item.waist && (
               <div className="text-gray-600 flex">
                 <img className="pr-2" src={thigh} alt="thigh" />
-                <span className="text-center">{item.thigh} cm</span>
+                <span className="text-center">{item.waist} cm</span>
               </div>
             )}
           </div>
@@ -72,21 +74,30 @@ function displayData(data) {
 }
 
 export default function Reweighing() {
-  const [data] = useState(fakeData.reverse());
+  const [datas, setDatas] = useState([]);
+  const [sendForm, setSendForm] = useState(false);
+
+  useEffect(() => {
+    instance.get("/api/stats").then((res) => {
+      setDatas(res.data);
+    });
+    setSendForm(false);
+  }, [sendForm]);
+
   return (
     <Layout>
       <div className="flex gap-8 flex-wrap">
         <div className="bg-gray-50 p-10 rounded-md sm:flex-none flex-grow">
-          <Form />
+          <Form setSendForm={setSendForm} />
         </div>
         <div className="sm:flex-1">
-          {data.length === 0 ? (
+          {datas.length === 0 ? (
             isEmpty()
           ) : (
             <>
               <h2 className="my-3 font-bold text-lg">Détails</h2>
               <div className="flex gap-28 flex-wrap justify-around">
-                {displayData(data)}
+                {displayData(datas)}
               </div>
             </>
           )}

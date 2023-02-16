@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -10,8 +10,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import instance from "@services/axios";
+import { AuthContext } from "../contexts/AuthContext";
 
-import data from "@services/fakeData";
 import Layout from "./layout/Layout";
 
 ChartJS.register(
@@ -29,22 +30,37 @@ function getImc(weight, height) {
 }
 
 export default function Bilan() {
+  const { user } = useContext(AuthContext);
+  const [datas, setDatas] = useState([]);
+
+  useEffect(() => {
+    instance.get("api/stats").then((response) => {
+      setDatas(response.data);
+    });
+  }, []);
+
   const [view, setView] = useState("poids");
 
-  const labels = data.map((item) => item.date);
+  const labels = datas.map((item) =>
+    new Date(item.createdAt).toLocaleDateString("fr-FR", {
+      day: "numeric",
+      month: "numeric",
+      year: "numeric",
+    })
+  );
   const poids = {
     labels,
     datasets: [
       {
         label: "Poids",
-        data: data.map((item) => item.weight),
+        data: datas.map((item) => item.weight),
         backgroundColor: "rgba(255, 99, 132, 0.2)",
         borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
       },
       {
         label: "IMC",
-        data: data.map((item) => getImc(item.weight, item.height)),
+        data: datas.map((item) => getImc(item.weight, user.height)),
         backgroundColor: "rgba(21, 128, 61, 0.2)",
         borderColor: "rgba(21, 128, 61, 1)",
         borderWidth: 1,
@@ -56,28 +72,28 @@ export default function Bilan() {
     datasets: [
       {
         label: "Taille",
-        data: data.map((item) => item.hip),
+        data: datas.map((item) => item.hips),
         backgroundColor: "rgba(255, 0, 255, 0.2)",
         borderColor: "rgba(255, 0, 255, 1)",
         borderWidth: 1,
       },
       {
         label: "Poitrine",
-        data: data.map((item) => item.chest),
+        data: datas.map((item) => item.chest),
         backgroundColor: "rgba(0, 255, 255, 0.2)",
         borderColor: "rgba(0, 255, 255, 1)",
         borderWidth: 1,
       },
       {
         label: "Bras",
-        data: data.map((item) => item.arm),
+        data: datas.map((item) => item.arm),
         backgroundColor: "rgba(255, 165, 0, 0.2)",
         borderColor: "rgba(255, 165, 0, 1)",
         borderWidth: 1,
       },
       {
         label: "Cuisse",
-        data: data.map((item) => item.thigh),
+        data: datas.map((item) => item.waist),
         backgroundColor: "rgba(138, 43, 226, 0.2)",
         borderColor: "rgba(138, 43, 226, 1)",
         borderWidth: 1,
@@ -123,14 +139,14 @@ export default function Bilan() {
           <p>
             Il est important de garder un oeil sur votre poids et vos mesures.
             Vous pouvez consulter vos données ci-dessus.{" "}
-            <p>
-              Les informations ci-dessous vous permettent de comprendre ce que
-              signifie votre IMC.
-            </p>
-            <p>
-              Il est la pour votre informations, ne pas hésitez à consulter
-              votre médecin.
-            </p>
+          </p>
+          <p>
+            Les informations ci-dessous vous permettent de comprendre ce que
+            signifie votre IMC.
+          </p>
+          <p>
+            Il est la pour votre informations, ne pas hésitez à consulter votre
+            médecin.
           </p>
           <table className="table-auto w-full">
             <thead>
@@ -175,94 +191,27 @@ export default function Bilan() {
       <div className="mt-8">
         <h1 className="text-2xl">Photos</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
-          <div className="flex justify-center flex-col items-center bg-gray-200 rounded-md">
-            <img
-              className="rounded-lg gl:mt-4"
-              src={`https://picsum.photos/200/300?random=${Math.random()}`}
-              alt=""
-            />
-            <p className="text-gray-600 text-base mb-2">le 01/01/2022</p>
-          </div>
+          {datas.map((data) => (
+            <div
+              key={data.id}
+              className="flex justify-center flex-col items-center bg-gray-200 rounded-md"
+            >
+              <img
+                className="rounded-lg gl:mt-4"
+                src={`${import.meta.env.VITE_BACKEND_URL}/images/${
+                  data.userStatId
+                }/${data.photo}`}
+                alt=""
+              />
+              <p className="text-gray-600 text-base mb-2">
+                {new Date(data.createdAt).toLocaleDateString("fr-FR", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </Layout>

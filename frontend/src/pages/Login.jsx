@@ -1,4 +1,38 @@
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import instance from "@services/axios";
+import toastify from "@services/toastify";
+import { AuthContext } from "../contexts/AuthContext";
+
 export default function Login() {
+  const { handleLogin } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const [login, setLogin] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLogin({ ...login, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    instance
+      .post("/auth/login", login)
+      .then((res) => {
+        navigate("/home");
+        handleLogin(res.data);
+        toastify("👋 Hello ! Ravie de te revoir", "success");
+      })
+      .catch((err) => {
+        toastify("une erreur est survenue", "error");
+        console.error(err);
+      });
+  };
+
   return (
     <div className="flex min-h-screen">
       <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
@@ -16,7 +50,7 @@ export default function Login() {
 
           <div className="mt-8">
             <div className="mt-6">
-              <form action="!#" method="POST" className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label
                     htmlFor="email"
@@ -26,6 +60,7 @@ export default function Login() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="email"
                       name="email"
                       type="email"
@@ -46,6 +81,7 @@ export default function Login() {
                   </label>
                   <div className="mt-1">
                     <input
+                      onChange={handleChange}
                       id="password"
                       name="password"
                       type="password"
@@ -58,19 +94,13 @@ export default function Login() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="remember-me"
-                      name="remember-me"
-                      type="checkbox"
-                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <label
-                      htmlFor="remember-me"
-                      className="ml-2 block text-sm text-gray-900"
+                  <div className="text-sm">
+                    <Link
+                      to="/register"
+                      className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
-                      Se rappeler de moi
-                    </label>
+                      Je n'ai pas de compte
+                    </Link>
                   </div>
 
                   <div className="text-sm">
@@ -99,7 +129,7 @@ export default function Login() {
       <div className="relative hidden w-0 flex-1 lg:block">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
+          src="https://images.pexels.com/photos/4793211/pexels-photo-4793211.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
           alt=""
         />
       </div>
