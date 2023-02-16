@@ -1,10 +1,10 @@
 const formidable = require("formidable");
 const fs = require("fs");
 
-const UPLOADS = `./upload/`;
+const UPLOADS = `./public/uploads`;
 
 const fileMiddleware = (req, res, next) => {
-  const userUpload = `./upload/${req.user.id}`;
+  const userUpload = `${UPLOADS}/${req.user.id}`;
   // create folder if not exist
   if (!fs.existsSync(UPLOADS)) {
     // create folder
