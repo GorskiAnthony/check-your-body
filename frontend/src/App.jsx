@@ -8,6 +8,7 @@ import Reweighing from "@pages/Reweighing";
 import Bilan from "@pages/Bilan";
 import Pages404 from "@pages/NotFound";
 import ProtectedRoute from "@pages/layout/ProtectedRoute";
+import Profil from "@pages/Profil";
 
 function App() {
   return (
@@ -36,6 +37,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Bilan />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profil"
+          element={
+            <ProtectedRoute>
+              <Profil />
             </ProtectedRoute>
           }
         />

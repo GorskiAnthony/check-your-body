@@ -52,7 +52,6 @@ export default function Navbar() {
                   />
                 </div>
                 <div className="hidden md:ml-6 md:flex md:space-x-8">
-                  {/* Current: "border-indigo-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" */}
                   {navigation.map((link) => (
                     <Link
                       key={link.name}
@@ -112,29 +111,32 @@ export default function Navbar() {
                         <Menu.Item>
                           {({ active }) => (
                             <Link
-                              to="!#"
+                              to="/profil"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Your Profile
+                              Mon profile
                             </Link>
                           )}
                         </Menu.Item>
 
                         <Menu.Item>
                           {({ active }) => (
-                            <button
-                              type="button"
+                            <span
+                              role="button"
+                              tabIndex={0}
+                              aria-roledescription="logout"
                               onClick={handleLogout}
+                              onKeyDown={handleLogout}
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
                             >
-                              Sign out
-                            </button>
+                              Déconnexion
+                            </span>
                           )}
                         </Menu.Item>
                       </Menu.Items>
@@ -186,7 +188,7 @@ export default function Navbar() {
                   href="!#"
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"
                 >
-                  Your Profile
+                  Mon profile
                 </Disclosure.Button>
 
                 <Disclosure.Button
@@ -194,7 +196,7 @@ export default function Navbar() {
                   onClick={handleLogout}
                   className="block px-4 py-2 text-base font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-800 sm:px-6"
                 >
-                  Sign out
+                  Déconnexion
                 </Disclosure.Button>
               </div>
             </div>
