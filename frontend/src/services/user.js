@@ -4,5 +4,6 @@ const user = {
   email: "antho@lebg.fr",
   password: "antho",
   role: "admin",
+  height: 182,
 };
 export default user;

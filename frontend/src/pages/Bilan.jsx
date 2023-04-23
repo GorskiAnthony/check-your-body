@@ -35,7 +35,7 @@ export default function Bilan() {
 
   useEffect(() => {
     instance.get("api/stats").then((response) => {
-      setDatas(response.data);
+      setDatas(response.data.reverse());
     });
   }, []);
 
@@ -48,6 +48,7 @@ export default function Bilan() {
       year: "numeric",
     })
   );
+
   const poids = {
     labels,
     datasets: [
@@ -191,27 +192,33 @@ export default function Bilan() {
       <div className="mt-8">
         <h1 className="text-2xl">Photos</h1>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
-          {datas.map((data) => (
-            <div
-              key={data.id}
-              className="flex justify-center flex-col items-center bg-gray-200 rounded-md"
-            >
-              <img
-                className="rounded-lg gl:mt-4"
-                src={`${import.meta.env.VITE_BACKEND_URL}/images/${
-                  data.userStatId
-                }/${data.photo}`}
-                alt=""
-              />
-              <p className="text-gray-600 text-base mb-2">
-                {new Date(data.createdAt).toLocaleDateString("fr-FR", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-            </div>
-          ))}
+          {datas.map((data) => {
+            const formatDate = new Date(data.createdAt).toLocaleDateString(
+              "fr-FR",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            );
+            return (
+              <div
+                key={data.id}
+                className="flex justify-center flex-col items-center bg-gray-200 rounded-md"
+              >
+                <img
+                  className="gl:mt-4"
+                  src={`${import.meta.env.VITE_BACKEND_URL}/images/${
+                    data.userStatId
+                  }/${data.photo}`}
+                  alt={formatDate}
+                />
+                <p className="text-gray-600 text-base mb-2">
+                  Photo prise le : {formatDate}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </Layout>
